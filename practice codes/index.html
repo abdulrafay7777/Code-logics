@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        .container{
+            width: 100%;
+            height: 100vh;
+            background: #141a34;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container form{
+            width: 90%;
+            max-width: 500px;
+            padding: 50px 30px 20px;
+            background: #fff;
+            border: 1px solid #000;
+            border-radius: 4px;
+            box-shadow: 0 4px 30px rgb(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .fa-paper-plane{
+            position: relative;
+            top: 0;
+            left: 50%;
+            transform: translate((-50%, -50%));
+            background: #fff;
+            font-size: 26px;
+            padding: 20px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        form button{
+            background-color: #141a34;
+            color: #fff;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            padding: 10px 40px;
+            outline: 0;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto 10px;
+        }
+        .input-group{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            position: relative;
+        }
+        .input-group label{
+            /* text-align: right; */
+            flex-basis: 28%;
+        }
+        .input-group input, .input-group textarea{
+            flex-basis: 68%;
+            background: transparent;
+            border: 0;
+            outline: 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #999;
+            color: #333;
+            font-size: 16px;
+        }
+        ::placeholder{
+            font-size: 14px;
+        }
+        .input-group input:focus{
+            border: 0;
+            outline: 0;
+            border-bottom: 1px solid lightgray;
+        }
+        .input-group span{
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            font-size: 14px;
+            color: red;
+            display: none;
+        }
+        .input-group span i{
+            color: green;
+        }
+        #submit-error{
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form action="">
+            <i class="fas fa-paper-plane"></i>
+
+            <div class="input-group">
+                <label for="">Full Name</label>
+                <input type="text" id="contact-name" onkeyup="validateName()" placeholder="Enter your name">
+                <span id="name-error">name is required</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="">Phone No.</label>
+                <input type="tel" placeholder="123 456 7980" id="contact-phone" onkeyup="validatePhone()">
+                <span id="phone-error">phone is required</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="">Email Id</label>
+                <input type="email" placeholder="Enter Email" id="contact-email" onkeyup="validateEmail()">
+                <span id="email-error">email is required</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="">Your Message</label>
+                <textarea rows="5" placeholder="Enter your message" id="contact-message" onkeyup="validateMessage()"></textarea>
+                <span id="message-error">message is required</span>
+            </div>
+
+            <button onclick="return validateForm()">Submit</button>
+            <span id="submit-error">please fix errors</span>
+        </form>
+    </div>
+
+
+    <script>
+        var nameError = document.getElementById('name-error');
+        var phoneError = document.getElementById('phone-error');
+        var emailError = document.getElementById('email-error');
+        var messageError = document.getElementById('message-error');
+        var submitError = document.getElementById('submit-error');
+    
+        function validateName() {
+            var name = document.getElementById('contact-name').value;
+            nameError.style.display = 'block';
+            if(name.length == 0){
+                nameError.innerHTML = "Name is required";
+                return false;
+            }
+            if(!name.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)){
+                nameError.innerHTML = "write full name";
+                return false;
+            }
+            // nameError.style.color = "green";
+            nameError.innerHTML = "<i class='fas fa-check-circle'></i>";
+            return true;
+        }
+    
+        function validatePhone() {
+            var phone = document.getElementById('contact-phone').value;
+            phoneError.style.display = "block";
+            if(phone.length == 0){
+                phoneError.innerHTML = "phone no is required";
+                return false;
+            }
+            if(phone.length !== 10){
+                phoneError.innerHTML = "phone no should be 10 digits";
+                return false;
+            }
+            if(!phone.match(/^[0-9]{10}$/)){
+                phoneError.innerHTML = "only digits please.";
+                return false;
+            }
+            
+            phoneError.innerHTML = "<i class='fas fa-check-circle'></i>";
+            return true;
+        }
+        
+        function validateEmail() {
+            var email = document.getElementById('contact-email').value;
+            emailError.style.display = "block";
+            
+            if(email.length == 0){
+                emailError.innerHTML = "Email is required";
+                return false;
+            }
+            //if(!email.match(/^[A-Za-z]\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)){
+            if(!email.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)){
+                emailError.innerHTML = "Invalid Email";
+                return false;
+            }
+            
+            emailError.innerHTML = "<i class='fas fa-check-circle'></i>";
+            return true;
+        }
+    
+        function validateMessage() {
+            var message = document.getElementById('contact-message').value;
+            messageError.style.display = "block";
+            var required = 30;
+            var left = required - message.length;
+            
+            if(left > 0){
+                messageError.innerHTML = left + " more characters required";
+                return false;
+            }
+            
+            messageError.innerHTML = "<i class='fas fa-check-circle'></i>";
+            return true;
+        }
+    
+        function validateForm(){
+            if(!validateName() || !validatePhone() || !validateEmail() || !validateMessage()){
+                submitError.style.display = "block";
+                submitError.innerHTML = 'Please fix error to submit'
+                setTimeout(() => {
+                    submitError.style.display = 'none';
+                }, 3000);
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
